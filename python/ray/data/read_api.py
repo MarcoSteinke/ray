@@ -189,6 +189,22 @@ def from_items(
         logical_plan,
     )
 
+@PublicAPI
+def empty() -> MaterializeDataset:
+    """Create an empty :class:`~ray.data.Dataset`.
+
+    Examples:
+
+        >>> import ray
+        >>> ds = ray.data.empty()
+        >>> ds
+        MaterializedDataset(num_blocks=0, num_rows=?, schema=Unknown schema)
+
+        Returns:
+        A :class:`~ray.data.Dataset` holding no items.
+    """
+    return from_items([])
+
 
 @PublicAPI
 def range(n: int, *, parallelism: int = -1) -> Dataset:
