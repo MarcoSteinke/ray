@@ -1,15 +1,16 @@
 group: ml tests
 steps:
-  # - label: ":train: ml: train tests"
-  #   tags: train
-  #   instance_type: large
-  #   parallelism: 2
-  #   commands:
-  #     - bazel run //ci/ray_ci:test_in_docker -- //python/ray/train/... ml 
-  #       --workers "$${BUILDKITE_PARALLEL_JOB_COUNT}" --worker-id "$${BUILDKITE_PARALLEL_JOB}" --parallelism-per-worker 3
-  #       --except-tags gpu_only,gpu,minimal,tune,doctest,needs_credentials 
-  #   depends_on: mlbuild
-  #   job_env: forge
+  - label: ":train: ml: train tests"
+    tags: train
+    instance_type: large
+    parallelism: 2
+    commands:
+      - bazel run //ci/ray_ci:test_in_docker -- //python/ray/train/... ml 
+        --workers "$${BUILDKITE_PARALLEL_JOB_COUNT}" --worker-id "$${BUILDKITE_PARALLEL_JOB}" --parallelism-per-worker 3
+        --except-tags gpu_only,gpu,minimal,tune,doctest
+        --test-env=WANDB_API_KEY --test-env=COMET_API_KEY
+    depends_on: mlbuild
+    job_env: forge
 
   # - label: ":train: ml: tune tests"
   #   tags: tune
@@ -53,7 +54,7 @@ steps:
   #     - bazel run //ci/ray_ci:test_in_docker -- //python/ray/train/... ml 
   #       --parallelism-per-worker 3
   #       --only-tags tune
-  #       --except-tags gpu_only,ray_air,gpu,doctest,needs_credentials
+  #       --except-tags gpu_only,ray_air,gpu,doctest
   #   depends_on: mlbuild
   #   job_env: forge
 
@@ -118,17 +119,17 @@ steps:
   #   depends_on: mlgpubuild
   #   job_env: forge
 
-  - label: ":train: ml: train gpu lightning 2.0 tests"
-    tags: 
-      - train
-      - gpu
-    instance_type: gpu-large
-    commands:
-      - bazel run //ci/ray_ci:test_in_docker -- //python/ray/train/... ml 
-        --build-name mllightning2gpubuild
-        --only-tags ptl_v2
-    depends_on: mllightning2gpubuild
-    job_env: forge
+  # - label: ":train: ml: train gpu lightning 2.0 tests"
+  #   tags: 
+  #     - train
+  #     - gpu
+  #   instance_type: gpu-large
+  #   commands:
+  #     - bazel run //ci/ray_ci:test_in_docker -- //python/ray/train/... ml 
+  #       --build-name mllightning2gpubuild
+  #       --only-tags ptl_v2
+  #   depends_on: mllightning2gpubuild
+  #   job_env: forge
 
   - name: minbuild-ml
     label: "wanda: minbuild-ml-py38"
