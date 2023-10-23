@@ -137,23 +137,3 @@ steps:
     env:
       PYTHON_VERSION: "3.8"
       EXTRA_DEPENDENCY: ml
-
-  - name: mlbuild
-    wanda: ci/docker/ml.build.wanda.yaml
-    depends_on: oss-ci-base_ml
-    env:
-      IMAGE_FROM: cr.ray.io/rayproject/oss-ci-base_ml
-      IMAGE_TO: mlbuild
-      RAYCI_IS_GPU_BUILD: "false"
-
-  - name: mllightning2gpubuild
-    wanda: ci/docker/mllightning2gpu.build.wanda.yaml
-    depends_on: oss-ci-base_gpu
-
-  - name: mlgpubuild
-    wanda: ci/docker/ml.build.wanda.yaml
-    depends_on: oss-ci-base_gpu
-    env:
-      IMAGE_FROM: cr.ray.io/rayproject/oss-ci-base_gpu
-      IMAGE_TO: mlgpubuild
-      RAYCI_IS_GPU_BUILD: "true"
